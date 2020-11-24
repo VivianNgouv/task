@@ -1,28 +1,8 @@
 
-import React, {useState} from 'react';
+import React, {} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Modal = ({show, close}) => {
-  return (
-    <div className="modalWrapper">
-      style={{opacity: show ? '1' : '0'}}
-      <div className="modalHeader">
-        <p>Welcome to Out Site</p>
-        <span onClick={close}className="closeModalButton">X</span>
-      </div>
-      <div className="modalContent">
-        <div className="modalBody">
-          <h4>Modal</h4>
-          <p>modal content stuff</p> 
-        </div>
-        <div className="modalFooter">
-          <button onClick={close}className="buttonCancel">Close</button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 
 function ListUsers(props){
@@ -44,10 +24,26 @@ function ListUsers(props){
   )
 }
 
-function Ass() {
-  const [show, setShow]= useState(false);
+class Modal extends React.Component {
+  onClose = e => {
+    this.props.onClose && this.props.onClose(e);
+  }
 
-  const closeModalHandler = () => setShow(false);
+  render() {
+    if (!this.props.show) {
+      return null;
+    }
+    return (
+      <div class="modal" id="modal">
+        <div class="modalContent">{this.props.children}</div>        
+        <div>
+          <button class="toggleButton" onClick={this.onClose}>
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 class Site extends React.Component {
@@ -64,6 +60,13 @@ class Site extends React.Component {
     this.addUser = this.addUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
   }
+
+
+  state = {show:false};
+
+  showModal = e => {
+    this.setState({show:!this.state.show});
+  };
 
   handleInput(e) {
     this.setState({
@@ -98,22 +101,24 @@ class Site extends React.Component {
   render() {
     return (
       <div className="Site">
-        {show ? <div className="backDrop"></div> : null}
-        <button onClick={() =>setShow(true)} className="buttonOpenModal">Open Modal</button>
-        <Modal show={show} close={closeModalHandler}/>
+        <h1>Hello World</h1>
+        <button onClick={e => {this.showModal(e);}}>{""}show Modal{""}</button>
+        <Modal  onClose={this.showModal} show={this.state.show}>
           <form id="userForm" onSubmit={this.addUser}>
             <input type="text" placeholder="Enter Text"
             value={this.state.currentUser.text}
             onChange={this.handleInput}/>
             <button type="submit">Add User</button>
           </form>
-        <ListUsers users = {this.state.users}
-        deleteUser = {this.deleteUser}/>
+          <ListUsers users = {this.state.users}
+          deleteUser = {this.deleteUser}/>
+        </Modal>
         </div>
     );
   }
 }
 
+const rootElement = document.getElementById("root");
+ReactDOM.render(<Site/>, rootElement);
 
-ReactDOM.render(<Site/>, document.getElementById('root'));
   

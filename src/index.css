@@ -6,20 +6,22 @@ body {
   ol, ul {
     padding-left: 30px;
   }
+  .modal {
+    width: 1000px;
+    background: white;
+    border: 1px solid #ccc;
+    transition: 1.1s ease-out;
+    box-shadow: -2rem 2rem 2rem rgba(0, 0, 0, 0.2);
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
   
-.close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-  
-.modal-content {
+.modalContent {
   background: #fefefe;
-  border: 1px solid #999;
   margin: auto;
-  padding: 20px;
-   width: 34px;
+  padding: 30px;
 }
 
 .modalWrapper {
@@ -42,17 +44,8 @@ body {
   cursor: pointer;
 }
 
-.modalContent {
-  padding: 1.5rem 1rem;
-}
-
 .modalBody{
   margin-bottom: 1rem;
-}
-
-.modalBody h4 {
-  font-size: 1.8rem;
-  color: #dd501d;
 }
 
 .modalBody p {
