@@ -1,5 +1,5 @@
 
-import React, {} from 'react';
+import React, {useState}from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -10,7 +10,7 @@ function ListUsers(props){
   const listUsers = users.map(user =>
     {
       return <div className = "list" key={user.key}>
-        <p>{user.text}
+        <p>{user.firstName}{user.lastName}
         <span> 
           <button onClick={ ()=> props.deleteUser(user.key)}>
              X
@@ -52,11 +52,13 @@ class Site extends React.Component {
     this.state ={ 
       users: [],
       currentUser: {
-        text:'',
+        firstName:'',
+        lastName:'',
         key:''
       }
     }
-    this.handleInput = this.handleInput.bind(this);
+    this.handleFirstName = this.handleFirstName.bind(this);
+    this.handleLastName = this.handleLastName.bind(this);
     this.addUser = this.addUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
   }
@@ -64,15 +66,23 @@ class Site extends React.Component {
 
   state = {show:false};
 
-  showModal = e => {
+  showModal = () => {
     this.setState({show:!this.state.show});
-  };
+  }
 
-  handleInput(e) {
+  handleFirstName(e) {
     this.setState({
       currentUser: {
-        text: e.target.value,
+        firstName: e.target.value,
         key: Date.now()
+      }
+    })
+  }
+
+  handleLastName(e) {
+    this.setState({
+      currentUser: {
+        lastName: e.target.value
       }
     })
   }
@@ -81,12 +91,13 @@ class Site extends React.Component {
     e.preventDefault();
     const newUser = this.state.currentUser;
     console.log(newUser);
-    if (newUser.text!=="") {
+    if (newUser.firstName!=="" && newUser.lastName!=="") {
       const newUsers = [...this.state.users, newUser];
       this.setState({
         users: newUsers,
         currentUser:{
-          text:'',
+          firstName:'',
+          lastName:'',
           key:'',
         }
       })
@@ -98,6 +109,7 @@ class Site extends React.Component {
     this.setState({users:filteredUsers})
   }
 
+
   render() {
     return (
       <div className="Site">
@@ -105,9 +117,12 @@ class Site extends React.Component {
         <button onClick={e => {this.showModal(e);}}>{""}show Modal{""}</button>
         <Modal  onClose={this.showModal} show={this.state.show}>
           <form id="userForm" onSubmit={this.addUser}>
-            <input type="text" placeholder="Enter Text"
-            value={this.state.currentUser.text}
-            onChange={this.handleInput}/>
+            <input type="text" placeholder="First Name"
+            onChange={this.handleFirstName}
+            value={this.state.currentUser.firstName}/>
+            <input type="text" placeholder="Last Name"
+            onChange={this.handleLastName}
+            value={this.state.currentUser.lastName}/>
             <button type="submit">Add User</button>
           </form>
           <ListUsers users = {this.state.users}
