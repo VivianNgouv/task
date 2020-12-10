@@ -34,10 +34,10 @@ class Modal extends React.Component {
       return null;
     }
     return (
-      <div class="modal" id="modal">
-        <div class="modalContent">{this.props.children}</div>        
+      <div className="modal" id="modal">
+        <div className="modalContent">{this.props.children}</div>        
         <div>
-          <button class="toggleButton" onClick={this.onClose}>
+          <button className="toggleButton" onClick={this.onClose}>
             Close
           </button>
         </div>
@@ -114,7 +114,7 @@ class Site extends React.Component {
     return (
       <div className="Site">
         <h1>Hello World</h1>
-        <button onClick={e => {this.showModal(e);}}>{""}show Modal{""}</button>
+        <button onClick={e => {this.showModal(e);}}>show Modal{""}</button>
         <Modal  onClose={this.showModal} show={this.state.show}>
           <form id="userForm" onSubmit={this.addUser}>
             <input type="text" placeholder="First Name"
